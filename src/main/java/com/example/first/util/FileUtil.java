@@ -1,9 +1,8 @@
 package com.example.first.util;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.function.Consumer;
 
 public class FileUtil {
 
@@ -27,6 +26,17 @@ public class FileUtil {
             //写入完成关闭流
             osw.close();
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public <T> void readSomething(String filePath, Consumer<T> consumer) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                consumer.accept((T) line);
+            }
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

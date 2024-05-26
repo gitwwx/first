@@ -31,21 +31,20 @@ public class DateTimeUtil {
      */
     public final static String DT_YYYYMMDD = "yyyyMMdd";
     /**
-     * 日期格式(yyyyMM)
+     * 日期格式(yyyy-MM-dd'T'HH:mm:ss)
      */
-    public final static String DT_YYYYMM = "yyyyMM";
+    public final static String DT_T = "yyyy-MM-dd'T'HH:mm:ss";
     /**
-     * 时间格式(yyyyMMddHHmmss)
+     * 日期格式(yyyy-MM-dd'T'HH:mm:ss'Z')
      */
-    public final static String DT_YYYYMMDDHHMMSS = "yyyyMMddHHmmss";
+    public final static String DT_Z = "yyyy-MM-dd'T'HH:mm:ss'Z'";
     /**
-     * 时间格式(yyyyMMddHHmmssSSS)
+     * 日期格式(yyyy-MM-dd'T'HH:mm:ss.SSSXXX)
      */
-    public static final String DT_YYYYMMDDHHMMSSSSS = "yyyyMMddHHmmssSSS";
+    public final static String DT_T000 = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX";
 
     public static void main(String[] args) {
-        Date date = dateTimeAdd(new Date(), 30);
-        System.out.println(date);
+        System.out.println(parseTime7("2024-04-23T05:29:34Z"));
     }
 
     public static Integer dateToSimpleDayInteger(Date date) {
@@ -213,5 +212,26 @@ public class DateTimeUtil {
         Instant instant = Instant.parse(strTime);
         // 将 Instant 转换为 LocalDateTime
         return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+    }
+
+    // 2024-03-20T11:14:13
+    public static LocalDateTime parseTime5(String strTime) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DT_T);
+        return LocalDateTime.parse(strTime, formatter);
+    }
+
+    // 2024-03-20T11:14:14.000+08:00
+    public static LocalDateTime parseTime6(String strTime) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DT_T000);
+        OffsetDateTime offsetDateTime = OffsetDateTime.parse(strTime, formatter);
+        return offsetDateTime.toLocalDateTime();
+    }
+
+    // 2024-03-20T11:14:13Z
+    public static LocalDateTime parseTime7(String strTime) {
+        // 定义日期时间格式化器
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DT_Z);
+        // 将字符串解析为 LocalDateTime 对象
+        return LocalDateTime.parse(strTime, formatter);
     }
 }
